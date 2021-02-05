@@ -1,4 +1,4 @@
-//vpc
+
 variable "vpc_name" {
   default = "lo_vpc"
 }
