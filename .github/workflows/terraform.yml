@@ -60,7 +60,7 @@ jobs:
         OS_DOMAIN_NAME: ${{ secrets.FE_DOMAIN_NAME }}
         OS_PROJECT_NAME: ${{ secrets.FE_PROJECT_NAME }}
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
-      uses: hashicorp/terraform-github-actions@master
+      uses: hashicorp/setup-terraform@v1
       with:
         tf_actions_version: latest
         tf_actions_subcommand: 'init'
@@ -69,7 +69,6 @@ jobs:
     - name: 'Terraform Validate'
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      uses: hashicorp/terraform-github-actions@master
       with:
           tf_actions_version: 0.12.20
           tf_actions_subcommand: 'validate'
@@ -88,7 +87,6 @@ jobs:
         
     - name: 'Terraform Apply'
       if: github.event.action == 'deploy'
-      uses: hashicorp/terraform-github-actions@master
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
         OS_ACCESS_KEY: ${{ secrets.FE_ACCESS_KEY_ID }}
@@ -103,7 +101,6 @@ jobs:
         
     - name: 'Terraform Plan Destroy'
       if: always()
-      uses: hashicorp/terraform-github-actions@master
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
         OS_ACCESS_KEY: ${{ secrets.FE_ACCESS_KEY_ID }}
@@ -117,7 +114,6 @@ jobs:
         
     - name: 'Terraform Apply Destroy'
       if: always()
-      uses: hashicorp/terraform-github-actions@master
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
         OS_ACCESS_KEY: ${{ secrets.FE_ACCESS_KEY_ID }}
