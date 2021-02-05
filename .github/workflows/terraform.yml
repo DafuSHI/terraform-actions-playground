@@ -41,10 +41,11 @@
 #       with:
 #         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-name: VPC Deployment
+name: CCE CI
 on:
-  repository_dispatch:
-  
+  push:  
+  schedule:
+  - cron:  '0 1,13 * * *'
 jobs:
   Deploy_CCE_Cluster:
     runs-on: ubuntu-latest
@@ -52,78 +53,63 @@ jobs:
     - name: 'Checkout'
       uses: actions/checkout@master
       
+    #- name: 'Terraform Format'
+     # uses: hashicorp/terraform-github-actions@master
+      #with:
+       # tf_actions_version: 0.12.20
+       # tf_actions_subcommand: 'fmt'
+      #env:
+        #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+    - uses: actions/checkout@v2
+    - uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 0.13.2
     - name: 'Terraform Init'
       env:
         OS_ACCESS_KEY: ${{ secrets.FE_ACCESS_KEY_ID }}
         OS_SECRET_KEY: ${{ secrets.FE_SECRET_ACCESS_KEY }}
         OS_DOMAIN_NAME: ${{ secrets.FE_DOMAIN_NAME }}
         OS_PROJECT_NAME: ${{ secrets.FE_PROJECT_NAME }}
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
-      uses: hashicorp/setup-terraform@v1
-      with:
-        tf_actions_version: latest
-        tf_actions_subcommand: 'init'
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run : terraform init
+      id : init
 
 
     - name: 'Terraform Validate'
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-          tf_actions_version: 0.12.20
-          tf_actions_subcommand: 'validate'
+      run : terraform validate
+      id : validate
           
     - name: 'Terraform Plan'
-      uses: hashicorp/setup-terraform@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         OS_ACCESS_KEY: ${{ secrets.FE_ACCESS_KEY_ID }}
         OS_SECRET_KEY: ${{ secrets.FE_SECRET_ACCESS_KEY }}
         OS_DOMAIN_NAME: ${{ secrets.FE_DOMAIN_NAME }}
         OS_PROJECT_NAME: ${{ secrets.FE_PROJECT_NAME }}
-      with:
-        tf_actions_version: latest
-        tf_actions_subcommand: 'plan'
+      run : terraform plan
+      id : plan
         
     - name: 'Terraform Apply'
-      uses: hashicorp/setup-terraform@v1
-      if: github.event.action == 'deploy'
       env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         OS_ACCESS_KEY: ${{ secrets.FE_ACCESS_KEY_ID }}
         OS_SECRET_KEY: ${{ secrets.FE_SECRET_ACCESS_KEY }}
         OS_DOMAIN_NAME: ${{ secrets.FE_DOMAIN_NAME }}
         OS_PROJECT_NAME: ${{ secrets.FE_PROJECT_NAME }}
-        TF_LOG: DEBUG 
         OS_DEBUG: true
-      with:
-        tf_actions_version: 0.12.20
-        tf_actions_subcommand: 'apply'
+      run : terraform apply -auto-approve
+      id : apply
         
-    - name: 'Terraform Plan Destroy'
+    - name: 'Destroy'
       if: always()
-      uses: hashicorp/setup-terraform@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         OS_ACCESS_KEY: ${{ secrets.FE_ACCESS_KEY_ID }}
         OS_SECRET_KEY: ${{ secrets.FE_SECRET_ACCESS_KEY }}
         OS_DOMAIN_NAME: ${{ secrets.FE_DOMAIN_NAME }}
         OS_PROJECT_NAME: ${{ secrets.FE_PROJECT_NAME }}
-      with:
-        tf_actions_version: latest
-        tf_actions_subcommand: 'plan'
-        args: '-destroy -out=./destroy-plan'
-        
-    - name: 'Terraform Apply Destroy'
-      if: always()
-      uses: hashicorp/setup-terraform@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        OS_ACCESS_KEY: ${{ secrets.FE_ACCESS_KEY_ID }}
-        OS_SECRET_KEY: ${{ secrets.FE_SECRET_ACCESS_KEY }}
-        OS_DOMAIN_NAME: ${{ secrets.FE_DOMAIN_NAME }}
-        OS_PROJECT_NAME: ${{ secrets.FE_PROJECT_NAME }}
-      with:
-        tf_actions_version: latest
-        tf_actions_subcommand: 'apply'  
-        args: './destroy-plan'
+      run : terraform destroy -auto-approve
+      id : destroy
