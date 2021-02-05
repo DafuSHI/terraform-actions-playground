@@ -71,20 +71,20 @@ jobs:
         OS_SECRET_KEY: ${{ secrets.FE_SECRET_ACCESS_KEY }}
         OS_DOMAIN_NAME: ${{ secrets.FE_DOMAIN_NAME }}
         OS_PROJECT_NAME: ${{ secrets.FE_PROJECT_NAME }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
       run : terraform init
       id : init
 
 
     - name: 'Terraform Validate'
       env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
       run : terraform validate
       id : validate
           
     - name: 'Terraform Plan'
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
         OS_ACCESS_KEY: ${{ secrets.FE_ACCESS_KEY_ID }}
         OS_SECRET_KEY: ${{ secrets.FE_SECRET_ACCESS_KEY }}
         OS_DOMAIN_NAME: ${{ secrets.FE_DOMAIN_NAME }}
@@ -94,7 +94,7 @@ jobs:
         
     - name: 'Terraform Apply'
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
         OS_ACCESS_KEY: ${{ secrets.FE_ACCESS_KEY_ID }}
         OS_SECRET_KEY: ${{ secrets.FE_SECRET_ACCESS_KEY }}
         OS_DOMAIN_NAME: ${{ secrets.FE_DOMAIN_NAME }}
@@ -106,7 +106,7 @@ jobs:
     - name: 'Destroy'
       if: always()
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
         OS_ACCESS_KEY: ${{ secrets.FE_ACCESS_KEY_ID }}
         OS_SECRET_KEY: ${{ secrets.FE_SECRET_ACCESS_KEY }}
         OS_DOMAIN_NAME: ${{ secrets.FE_DOMAIN_NAME }}
