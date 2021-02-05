@@ -67,7 +67,7 @@ jobs:
         OS_SECRET_KEY: ${{ secrets.FE_SECRET_ACCESS_KEY }}
         OS_DOMAIN_NAME: ${{ secrets.FE_DOMAIN_NAME }}
         OS_PROJECT_NAME: ${{ secrets.FE_PROJECT_NAME }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
       uses: hashicorp/terraform-github-actions@master
       with:
         tf_actions_version: latest
@@ -85,14 +85,11 @@ jobs:
     - name: 'Terraform Plan'
       uses: hashicorp/terraform-github-actions@master
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
         OS_ACCESS_KEY: ${{ secrets.FE_ACCESS_KEY_ID }}
         OS_SECRET_KEY: ${{ secrets.FE_SECRET_ACCESS_KEY }}
         OS_DOMAIN_NAME: ${{ secrets.FE_DOMAIN_NAME }}
         OS_PROJECT_NAME: ${{ secrets.FE_PROJECT_NAME }}
-        TF_VAR_vpc_id: ${{ secrets.FE_VPC_ID }}
-        TF_VAR_network_id: ${{ secrets.FE_NETWORK_ID }}
-        TF_VAR_keypair: ${{ secrets.FE_KEY_PAIR }}
       with:
         tf_actions_version: latest
         tf_actions_subcommand: 'plan'
@@ -101,15 +98,11 @@ jobs:
       if: github.event.action == 'deploy'
       uses: hashicorp/terraform-github-actions@master
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
         OS_ACCESS_KEY: ${{ secrets.FE_ACCESS_KEY_ID }}
         OS_SECRET_KEY: ${{ secrets.FE_SECRET_ACCESS_KEY }}
         OS_DOMAIN_NAME: ${{ secrets.FE_DOMAIN_NAME }}
         OS_PROJECT_NAME: ${{ secrets.FE_PROJECT_NAME }}
-        TF_VAR_vpc_id: ${{ secrets.FE_VPC_ID }}
-        TF_VAR_network_id: ${{ secrets.FE_NETWORK_ID }}
-        TF_VAR_keypair: ${{ secrets.FE_KEY_PAIR }}
-        TF_VAR_cluster_name: ${{ github.event.client_payload.cluster_name }} 
         TF_LOG: DEBUG 
         OS_DEBUG: true
       with:
@@ -120,14 +113,11 @@ jobs:
       if: always()
       uses: hashicorp/terraform-github-actions@master
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
         OS_ACCESS_KEY: ${{ secrets.FE_ACCESS_KEY_ID }}
         OS_SECRET_KEY: ${{ secrets.FE_SECRET_ACCESS_KEY }}
         OS_DOMAIN_NAME: ${{ secrets.FE_DOMAIN_NAME }}
         OS_PROJECT_NAME: ${{ secrets.FE_PROJECT_NAME }}
-        TF_VAR_vpc_id: ${{ secrets.FE_VPC_ID }}
-        TF_VAR_network_id: ${{ secrets.FE_NETWORK_ID }}
-        TF_VAR_keypair: ${{ secrets.FE_KEY_PAIR }}
       with:
         tf_actions_version: latest
         tf_actions_subcommand: 'plan'
@@ -137,14 +127,11 @@ jobs:
       if: always()
       uses: hashicorp/terraform-github-actions@master
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
         OS_ACCESS_KEY: ${{ secrets.FE_ACCESS_KEY_ID }}
         OS_SECRET_KEY: ${{ secrets.FE_SECRET_ACCESS_KEY }}
         OS_DOMAIN_NAME: ${{ secrets.FE_DOMAIN_NAME }}
         OS_PROJECT_NAME: ${{ secrets.FE_PROJECT_NAME }}
-        TF_VAR_vpc_id: ${{ secrets.FE_VPC_ID }}
-        TF_VAR_network_id: ${{ secrets.FE_NETWORK_ID }}
-        TF_VAR_keypair: ${{ secrets.FE_KEY_PAIR }}
       with:
         tf_actions_version: latest
         tf_actions_subcommand: 'apply'  
