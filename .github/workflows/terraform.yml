@@ -103,6 +103,11 @@ jobs:
       run : terraform apply -auto-approve
       id : apply
         
+    - name: Sleep for 4 mins
+      uses: jakejarvis/wait-action@master
+      with:
+        time: '240s'
+    
     - name: 'Destroy'
       if: always()
       env:
