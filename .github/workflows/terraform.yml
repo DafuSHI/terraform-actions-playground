@@ -41,7 +41,7 @@
 #       with:
 #         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-name: CCE CI
+name: VPC Test
 on:
   push:  
   schedule:
