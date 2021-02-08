@@ -47,7 +47,7 @@ on:
   schedule:
   - cron:  '0 1,13 * * *'
 jobs:
-  Deploy_CCE_Cluster:
+  Deploy_Test_Scenario:
     runs-on: ubuntu-latest
     steps:
     - name: 'Checkout'
