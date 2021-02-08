@@ -46,6 +46,9 @@ provider "flexibleengine" {
 }
 
 
+data "flexibleengine_compute_availability_zones_v2" "myaz" {}
+
+
 resource "flexibleengine_vpc_v1" "vpc_v1" {
   name = var.vpc_name
   cidr = var.vpc_cidr
@@ -82,4 +85,9 @@ resource "flexibleengine_nat_snat_rule_v2" "snat_1" {
   nat_gateway_id = flexibleengine_nat_gateway_v2.nat_1.id
   network_id     = flexibleengine_vpc_subnet_v1.subnet_v1.id
   floating_ip_id = flexibleengine_vpc_eip_v1.eip_1.id
+}
+
+
+output "flavors" {
+  value = flexibleengine_compute_availability_zones_v2.myaz.names[0]
 }
