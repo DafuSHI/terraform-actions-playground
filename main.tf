@@ -89,5 +89,5 @@ resource "flexibleengine_nat_snat_rule_v2" "snat_1" {
 
 
 output "flavors" {
-  value = flexibleengine_compute_availability_zones_v2.myaz.names[0]
+  value = data.flexibleengine_compute_availability_zones_v2.myaz.names[0]
 }
