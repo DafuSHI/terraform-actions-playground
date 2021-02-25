@@ -10,7 +10,7 @@ variable "vpc_cidr" {
 
 //subnet
 variable "subnet_name" {
-  default = "subnet_1"
+  default = "subnet_01"
 }
 
 variable "subnet_cidr" {
