@@ -1,6 +1,6 @@
 
 variable "vpc_name" {
-  default = "lo_vpc"
+  default = "test_vpc"
 }
 
 variable "vpc_cidr" {
