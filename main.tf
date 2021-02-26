@@ -78,10 +78,6 @@ output "flavors" {
   value = data.flexibleengine_compute_availability_zones_v2.myaz.names[0]
 }
 
-resource "flexibleengine_compute_keypair_v2" "keypair" {
-  name       = "KeyPair-Dafu-Orange-2"
-//public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAjpC1hwiOCCmKEWxJ4qzTTsJbKzndLotBCz5PcwtUnflmU+gHJtWMZKpuEGVi29h0A/+ydKek1O18k10Ff+4tyFjiHDQAnOfgWf7+b1yK+qDip3X1C0UPMbwHlTfSGWLGZqd9LvEFx9k3h/M+VtMvwR1lJ9LUyTAImnNjWG7TaIPmui30HvM2UiFEmqkr4ijq45MyX2+fLIePLRIF61p4whjHAQYufqyno3BS48icQb4p6iVEZPo4AE2o9oIyQvj2mx4dk5Y8CgSETOZTYDOR3rU2fZTRDRgPJDH9FWvQjF5tA0p3d9CoWWd2s6GKKbfoUIi8R/Db1BSPJwkqB"
-}
 
 resource "flexibleengine_cce_cluster_v3" "cluster_1" {
      name = "toto"
@@ -101,7 +97,7 @@ resource "flexibleengine_cce_node_pool_v3" "node_pool" {
   initial_node_count       = 2
   flavor_id                = "s3.large.4"
   availability_zone        = null
-  key_pair                 = flexibleengine_compute_keypair_v2.keypair.id
+  key_pair                 = "KeyPair-Dafu-Orange"
   scall_enable             = true
   min_node_count           = 1
   max_node_count           = 10
