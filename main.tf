@@ -89,7 +89,7 @@ resource "flexibleengine_vpc_eip_v1" "rest_api_eip" {
 resource "flexibleengine_lb_loadbalancer_v2" "elb_rest_api" {
   name              = "elb_rest_api"
   admin_state_up    = true
-  vip_subnet_id     = flexibleengine_vpc_subnet_v1.subnet_v1.id
+  vip_subnet_id     = flexibleengine_vpc_subnet_v1.subnet_v1.subnet_id
   vip_address       = "${flexibleengine_vpc_eip_v1.rest_api_eip.publicip[0].ip_address}"
 
 }
